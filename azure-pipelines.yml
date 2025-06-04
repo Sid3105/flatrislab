@@ -7,18 +7,22 @@ trigger:
   - main
 
 pool:
-  vmImage: 'ubuntu-latest' # Or 'windows-latest' if your project needs Windows
+  vmImage: 'ubuntu-latest' # Use 'ubuntu-latest' for Linux agent
 
 steps:
-- task: NodeTool@0 # Corrected task name and version
+- task: NodeTool@0 # Using NodeTool@0 is often preferred and more generic.
   inputs:
-    versionSpec: '10.x' # The flatris project appears to be older, so an older Node.js might be more compatible. You might need to experiment with 12.x or 14.x if 10.x causes other issues.
+    versionSpec: '10.x' # Or '12.x', '14.x', '16.x' - experiment if 10.x causes issues.
   displayName: 'Install Node.js'
 
-- script: |
+- script: | # This is a multi-line script, so the | is important.
     npm install --legacy-peer-deps
   displayName: 'npm install'
 
-- script: |
+- script: | # This is also a script block.
+    touch .env
+  displayName: 'Create .env file'
+
+- script: | # Another script block.
     npm run build
   displayName: 'npm build'
